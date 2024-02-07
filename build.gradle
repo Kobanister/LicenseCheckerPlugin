@@ -1,0 +1,43 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+    id 'java-gradle-plugin'
+    id 'com.github.hierynomus.license-report'
+    id "com.gradle.plugin-publish" version "1.2.1"
+}
+
+group = 'io.github.kobanister.license.checker'
+version = '1.0'
+
+repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    jcenter()
+}
+
+dependencies {
+    implementation("com.android.tools.build:gradle:8.2.1")
+}
+
+kotlin {
+    jvmToolchain(19)
+}
+
+gradlePlugin {
+    website = 'https://github.com/Kobanister/LicenseCheckerPlugin'
+    vcsUrl = 'https://github.com/Kobanister/LicenseCheckerPlugin'
+    plugins {
+        create("licenseCheckerPlugin") {
+            id = "io.github.kobanister.license.checker"
+            implementationClass = "io.github.kobanister.license.checker.LicenseCheckerPlugin"
+            displayName = 'Gradle Dependency License Checker plugin'
+            description = 'A dependency license scanner and checker that will help avoid the usage of prohibited licenses.'
+            tags.set(['dependency', 'license', 'checker', 'licenses', 'scanner'])
+        }
+    }
+}
+
+downloadLicenses {
+    includeProjectDependencies true
+    dependencyConfiguration 'all'
+}
